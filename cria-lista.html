@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div classe="menu">
+        <button id="btn" classe="btnMenu">Menu</button>
+      <ul id="lista">
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+        <il>item 4</il>
+      </ul>
+    <div>
+        <section>
+            Clique no menu uma opição
+        </section>
+    
+    <script>
+        const btn = document.getElementById("btn");
+        btn.onclick = () =>{
+            const lista = document.getElementById("lista");
+            if (lista.style.displey == "none"){
+                lista.style.displey = "block";
+            } else {
+                lista.style.displey = "none" ;
+            }
+        }
+    </script>
+
+    <style>
+        .menu{
+            background: #2d89ef;
+            padding: 15px;
+            
+        }
+        .menu ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2) ;
+            position:absolute;
+            display:none;
+            width: 60px;
+
+        }
+    </style>
+
+    
+</body>
+</html>

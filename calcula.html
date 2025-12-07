@@ -1,0 +1,26 @@
+<html>
+<head>
+        <title>Calculadora</title>
+</head>
+<body>
+
+        <input type="text" id="valor" />
+
+        <p>Resultado: <span id="result">0</span></p>
+
+        <button id="btn">Calcular</button>
+
+        <script>
+            const btn = document.getElementById("btn");
+
+            btn.onclick = () => {
+                const valor = document.getElementById("valor").value;
+                const result = document.getElementById("result");
+                resultado = eval(valor);
+                result.textContent = resultado;
+            }
+
+        </script>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exemplo API - GET / POST / PUT / DELETE</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f3f3f3;
+    }
+    h1 {
+      text-align: center;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      background: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #125ca1;
+    }
+    input {
+      margin: 5px;
+      padding: 6px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    pre {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Exemplo Simples de API</h1>
+  <p>URL Base: <strong>http://192.168.31.156:4000/</strong></p>
+
+  <!-- GET -->
+  <div>
+    <h2>GET (Ler dados)</h2>
+    <button onclick="getDados()">Buscar Dados</button>
+  </div>
+
+  <!-- POST -->
+  <div>
+    <h2>POST (Criar novo dado)</h2>
+    <input type="text" id="novoNome" placeholder="Nome">
+    <button onclick="criarDado()">Enviar</button>
+  </div>
+
+  <!-- PUT -->
+  <div>
+    <h2>PUT (Atualizar dado)</h2>
+    <input type="number" id="idPut" placeholder="ID">
+    <input type="text" id="novoNomePut" placeholder="Novo nome">
+    <button onclick="atualizarDado()">Atualizar</button>
+  </div>
+
+  <!-- DELETE -->
+  <div>
+    <h2>DELETE (Apagar dado)</h2>
+    <input type="number" id="idDelete" placeholder="ID">
+    <button onclick="apagarDado()">Excluir</button>
+  </div>
+
+  <h2>🧾 Resultado:</h2>
+  <pre id="resultado">Clique em um botão para ver o resultado aqui...</pre>
+
+  <script>
+    // ✅ URL base da API — pode mudar conforme seu servidor
+    const baseURL = "https://jsonplaceholder.typicode.com/posts/";
+
+    // Exibe texto na área de resultado
+    function show(text) {
+      document.getElementById("resultado").textContent = text;
+    }
+
+    // Mostra erro formatado
+    function showError(action, err) {
+      console.error(action, err);
+      show(`${action} — Erro: ${err.message || err}`);
+    }
+
+    // Interpreta a resposta da API
+    async function parseResponse(res) {
+      if (!res.ok) throw new Error('Status ' + res.status);
+      const ct = res.headers.get('content-type') || '';
+      if (ct.includes('application/json')) return await res.json();
+      return await res.text();
+    }
+
+    // 🟢 GET
+    async function getDados() {
+      try {
+        const res = await fetch(baseURL);
+        const dados = await parseResponse(res);
+        show(JSON.stringify(dados, null, 2));
+      } catch (err) {
+        showError('GET', err);
+      }
+    }
+
+    // 🟡 POST
+    async function criarDado() {
+      const nome = document.getElementById("novoNome").value.trim();
+      if (!nome) return show("POST — preencha o campo Nome.");
+      try {
+        const res = await fetch(baseURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nome })
+        });
+        const dado = await parseResponse(res);
+        show("Novo dado criado:\n" + JSON.stringify(dado, null, 2));
+      } catch (err) {
+        showError('POST', err);
+      }
+    }
+
+    // 🟠 PUT
+    async function atualizarDado() {
+      const id = document.getElementById("idPut").value.trim();
+      const nome = document.getElementById("novoNomePut").value.trim();
+      if (!id) return show("PUT — informe o ID.");
+      if (!nome) return show("PUT — informe o novo nome.");
+      try {
+        const url = `${baseURL}${id}`; // adiciona ID à URL
+        const res = await fetch(url, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nome })
+        });
+        const dado = await parseResponse(res);
+        show("Dado atualizado:\n" + JSON.stringify(dado, null, 2));
+      } catch (err) {
+        showError('PUT', err);
+      }
+    }
+
+    // 🔴 DELETE
+    async function apagarDado() {
+      const id = document.getElementById("idDelete").value.trim();
+      if (!id) return show("DELETE — informe o ID.");
+      try {
+        const url = `${baseURL}${id}`; // adiciona ID à URL corretamente
+        const res = await fetch(url, { method: "DELETE" });
+        // DELETE normalmente retorna 200 ou 204
+        if (res.status === 204) {
+          show("Recurso deletado com sucesso (sem conteúdo retornado).");
+        } else {
+          const body = await parseResponse(res);
+          show("Resposta DELETE:\n" + JSON.stringify(body, null, 2));
+        }
+      } catch (err) {
+        showError('DELETE', err);
+      }
+    }
+  </script>
+</body>
+</html>

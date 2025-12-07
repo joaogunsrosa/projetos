@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1 id="titulo">Bem-vindo!</h1>
+<p class="texto">
+    Clique no butão 
+    para mudar a mensagem</p>
+
+<p class="texto">Outro texto</p>
+
+<button id="btm">Mudar</button>
+
+
+<script>
+    //pega o primeiro elemento da teg da mesma
+    //formq que é útiliza no css
+    const titulo = document.querySelector("#titulo");
+    titulo.style.color = "red" ;
+
+    const p = document.querySelector(".texto");
+    p.textContent = "O texto foi alterado";
+
+    const btm = document.querySelector("#btm");
+    btm.onclick = () => {
+        alert("você clicou no botão");
+    }
+
+</script>
+
+</body>
+</html>

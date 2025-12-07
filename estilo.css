@@ -1,0 +1,25 @@
+h1{
+    border:red;
+    color :green;
+    display: flex;
+    background-color: black;
+    padding: 100px;
+}
+
+div{
+    text-align: line;
+}
+
+button{
+    background-color: violet;
+    padding: 10px;
+    color:wheat;
+    border:none;
+    cursor: pointer;
+    transition: backgrund-color 1.0s  con;
+
+}
+button:hover{
+    background-color: indigo;
+    color: black;
+}
